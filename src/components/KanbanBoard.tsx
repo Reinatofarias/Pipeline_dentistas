@@ -1,10 +1,12 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Search, Plus, Filter } from "lucide-react";
+import { Search, Plus, Upload, FileSpreadsheet } from "lucide-react";
 import { DentistCard, Dentist } from "./DentistCard";
 import { DentistForm } from "./DentistForm";
+import { SpreadsheetImport } from "./SpreadsheetImport";
 
 interface KanbanBoardProps {
   dentists: Dentist[];
@@ -12,6 +14,7 @@ interface KanbanBoardProps {
   onEditDentist: (dentist: Partial<Dentist>) => void;
   onDeleteDentist: (id: string) => void;
   onStatusChange: (id: string, status: Dentist['status']) => void;
+  onImportDentists: (dentists: Partial<Dentist>[]) => void;
 }
 
 const statusColumns = [
@@ -22,16 +25,17 @@ const statusColumns = [
   { key: 'Lost', label: 'Perdido', color: 'bg-red-50 border-red-200' }
 ];
 
-export function KanbanBoard({ dentists, onAddDentist, onEditDentist, onDeleteDentist, onStatusChange }: KanbanBoardProps) {
+export function KanbanBoard({ dentists, onAddDentist, onEditDentist, onDeleteDentist, onStatusChange, onImportDentists }: KanbanBoardProps) {
   const [showForm, setShowForm] = useState(false);
+  const [showImport, setShowImport] = useState(false);
   const [editingDentist, setEditingDentist] = useState<Dentist | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredDentists = dentists.filter(dentist =>
-    dentist.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    dentist.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    dentist.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    dentist.specialty.toLowerCase().includes(searchQuery.toLowerCase())
+    (dentist.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (dentist.city || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (dentist.state || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (dentist.specialty || '').toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const getDentistsByStatus = (status: Dentist['status']) => {
@@ -56,6 +60,15 @@ export function KanbanBoard({ dentists, onAddDentist, onEditDentist, onDeleteDen
   const handleClose = () => {
     setShowForm(false);
     setEditingDentist(null);
+  };
+
+  const handleImportClose = () => {
+    setShowImport(false);
+  };
+
+  const handleImport = (importedDentists: Partial<Dentist>[]) => {
+    onImportDentists(importedDentists);
+    setShowImport(false);
   };
 
   const handleDragStart = (e: React.DragEvent, dentist: Dentist) => {
@@ -84,7 +97,7 @@ export function KanbanBoard({ dentists, onAddDentist, onEditDentist, onDeleteDen
       <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
         <div className="flex items-center gap-6">
           <div className="space-y-1">
-            <h1 className="text-2xl font-bold text-foreground">Pipeline de Prospecção</h1>
+            <h1 className="text-3xl font-bold text-foreground">OrigemProspec</h1>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span>Total: <strong className="text-primary">{totalDentists}</strong> dentistas</span>
               <span>•</span>
@@ -106,6 +119,14 @@ export function KanbanBoard({ dentists, onAddDentist, onEditDentist, onDeleteDen
             />
           </div>
           <Button
+            onClick={() => setShowImport(true)}
+            variant="outline"
+            className="shrink-0"
+          >
+            <Upload className="h-4 w-4 mr-2" />
+            Importar Planilha
+          </Button>
+          <Button
             onClick={() => setShowForm(true)}
             className="btn-medical shrink-0"
           >
@@ -116,33 +137,33 @@ export function KanbanBoard({ dentists, onAddDentist, onEditDentist, onDeleteDen
       </div>
 
       {/* Kanban Board */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 min-h-[600px]">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 min-h-[700px]">
         {statusColumns.map(column => {
           const columnDentists = getDentistsByStatus(column.key as Dentist['status']);
           
           return (
             <div
               key={column.key}
-              className={`kanban-column ${column.color}`}
+              className={`kanban-column ${column.color} rounded-xl p-4`}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, column.key as Dentist['status'])}
             >
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <h3 className="font-semibold text-sm text-foreground">{column.label}</h3>
-                  <Badge variant="secondary" className="text-xs">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <h3 className="font-semibold text-base text-foreground">{column.label}</h3>
+                  <Badge variant="secondary" className="text-xs px-2 py-1">
                     {columnDentists.length}
                   </Badge>
                 </div>
               </div>
 
-              <div className="space-y-3 overflow-y-auto max-h-[calc(600px-80px)]">
+              <div className="space-y-4 overflow-y-auto max-h-[calc(700px-100px)]">
                 {columnDentists.map(dentist => (
                   <div
                     key={dentist.id}
                     draggable
                     onDragStart={(e) => handleDragStart(e, dentist)}
-                    className="cursor-move"
+                    className="cursor-move transform hover:scale-105 transition-transform duration-200"
                   >
                     <DentistCard
                       dentist={dentist}
@@ -154,8 +175,9 @@ export function KanbanBoard({ dentists, onAddDentist, onEditDentist, onDeleteDen
                 ))}
                 
                 {columnDentists.length === 0 && (
-                  <div className="text-center py-8 text-muted-foreground text-sm">
-                    Nenhum dentista nesta etapa
+                  <div className="text-center py-12 text-muted-foreground text-sm">
+                    <FileSpreadsheet className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                    <p>Nenhum dentista nesta etapa</p>
                   </div>
                 )}
               </div>
@@ -170,6 +192,14 @@ export function KanbanBoard({ dentists, onAddDentist, onEditDentist, onDeleteDen
           dentist={editingDentist}
           onSave={handleSave}
           onClose={handleClose}
+        />
+      )}
+
+      {/* Import Modal */}
+      {showImport && (
+        <SpreadsheetImport
+          onImport={handleImport}
+          onClose={handleImportClose}
         />
       )}
     </div>

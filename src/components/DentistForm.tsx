@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -113,25 +114,24 @@ export function DentistForm({ dentist, onSave, onClose }: DentistFormProps) {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Nome Completo *</Label>
+                <Label htmlFor="name">Nome Completo</Label>
                 <Input
                   id="name"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
                   className="form-input"
-                  required
+                  placeholder="Ex: Dr. João Silva"
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="phone">Telefone/WhatsApp *</Label>
+                <Label htmlFor="phone">Telefone/WhatsApp</Label>
                 <Input
                   id="phone"
                   value={formData.phone}
                   onChange={(e) => handleInputChange('phone', e.target.value)}
                   placeholder="(11) 99999-9999"
                   className="form-input"
-                  required
                 />
               </div>
             </div>
@@ -149,30 +149,30 @@ export function DentistForm({ dentist, onSave, onClose }: DentistFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="clinic">Clínica/Consultório *</Label>
+              <Label htmlFor="clinic">Clínica/Consultório</Label>
               <Input
                 id="clinic"
                 value={formData.clinic}
                 onChange={(e) => handleInputChange('clinic', e.target.value)}
                 className="form-input"
-                required
+                placeholder="Ex: Clínica Sorrir"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="city">Cidade *</Label>
+                <Label htmlFor="city">Cidade</Label>
                 <Input
                   id="city"
                   value={formData.city}
                   onChange={(e) => handleInputChange('city', e.target.value)}
                   className="form-input"
-                  required
+                  placeholder="Ex: São Paulo"
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="state">Estado *</Label>
+                <Label htmlFor="state">Estado</Label>
                 <Select value={formData.state} onValueChange={(value) => handleInputChange('state', value)}>
                   <SelectTrigger className="form-input">
                     <SelectValue placeholder="Selecione o estado" />
@@ -188,7 +188,7 @@ export function DentistForm({ dentist, onSave, onClose }: DentistFormProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="specialty">Especialidade *</Label>
+                <Label htmlFor="specialty">Especialidade</Label>
                 <Select value={formData.specialty} onValueChange={(value) => handleInputChange('specialty', value)}>
                   <SelectTrigger className="form-input">
                     <SelectValue placeholder="Selecione a especialidade" />
@@ -204,7 +204,7 @@ export function DentistForm({ dentist, onSave, onClose }: DentistFormProps) {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="status">Status *</Label>
+                <Label htmlFor="status">Status</Label>
                 <Select value={formData.status} onValueChange={(value) => handleInputChange('status', value as Dentist['status'])}>
                   <SelectTrigger className="form-input">
                     <SelectValue />

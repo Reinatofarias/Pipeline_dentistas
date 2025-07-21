@@ -1,6 +1,6 @@
+
 import { useState, useEffect } from "react";
 import { KanbanBoard } from "@/components/KanbanBoard";
-import { WelcomeModal } from "@/components/WelcomeModal";
 import { Dentist } from "@/components/DentistCard";
 import { useToast } from "@/hooks/use-toast";
 
@@ -81,7 +81,7 @@ export function CRMDashboard() {
     
     toast({
       title: "Dentista adicionado!",
-      description: `Dr(a). ${dentistData.name} foi adicionado ao pipeline.`,
+      description: `${dentistData.name || 'Novo dentista'} foi adicionado ao pipeline.`,
       variant: "default",
     });
   };
@@ -97,7 +97,7 @@ export function CRMDashboard() {
 
     toast({
       title: "Dentista atualizado!",
-      description: `Informações de Dr(a). ${dentistData.name} foram atualizadas.`,
+      description: `Informações foram atualizadas com sucesso.`,
       variant: "default",
     });
   };
@@ -109,7 +109,7 @@ export function CRMDashboard() {
     
     toast({
       title: "Dentista removido",
-      description: `Dr(a). ${dentist?.name} foi removido do pipeline.`,
+      description: `${dentist?.name || 'Registro'} foi removido do pipeline.`,
       variant: "destructive",
     });
   };
@@ -141,25 +141,40 @@ export function CRMDashboard() {
 
     toast({
       title: "Status atualizado!",
-      description: `Dr(a). ${dentist?.name} foi movido para ${statusLabels[newStatus]}.`,
+      description: `${dentist?.name || 'Dentista'} foi movido para ${statusLabels[newStatus]}.`,
       variant: newStatus === 'Closed' ? 'default' : 'default',
     });
   };
 
+  const handleImportDentists = (importedDentists: Partial<Dentist>[]) => {
+    const newDentists: Dentist[] = importedDentists.map(dentist => ({
+      ...dentist,
+      id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+      status: dentist.status || 'Prospecting',
+      account_manager: dentist.account_manager || 'Usuário Demo',
+    })) as Dentist[];
+
+    setDentists(prev => [...prev, ...newDentists]);
+    
+    toast({
+      title: "Importação concluída!",
+      description: `${newDentists.length} dentistas foram importados com sucesso.`,
+      variant: "default",
+    });
+  };
+
   return (
-    <>
-      <WelcomeModal />
-      <div className="min-h-screen bg-background p-4 lg:p-8">
-        <div className="mx-auto max-w-7xl">
-          <KanbanBoard
-            dentists={dentists}
-            onAddDentist={handleAddDentist}
-            onEditDentist={handleEditDentist}
-            onDeleteDentist={handleDeleteDentist}
-            onStatusChange={handleStatusChange}
-          />
-        </div>
+    <div className="min-h-screen bg-background p-4 lg:p-8">
+      <div className="mx-auto max-w-7xl">
+        <KanbanBoard
+          dentists={dentists}
+          onAddDentist={handleAddDentist}
+          onEditDentist={handleEditDentist}
+          onDeleteDentist={handleDeleteDentist}
+          onStatusChange={handleStatusChange}
+          onImportDentists={handleImportDentists}
+        />
       </div>
-    </>
+    </div>
   );
 }
