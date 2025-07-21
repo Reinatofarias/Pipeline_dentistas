@@ -2,39 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* CRM Design System - Medical/Dental Theme with HSL colors */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Medical blue theme */
+    --background: 210 20% 98%;
+    --foreground: 215 25% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 215 25% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary medical blue */
+    --primary: 208 85% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 208 85% 65%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary dental green */
+    --secondary: 155 40% 50%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Soft backgrounds */
+    --muted: 210 30% 96%;
+    --muted-foreground: 215 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent for highlights */
+    --accent: 195 100% 95%;
+    --accent-foreground: 208 85% 45%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Status colors */
+    --success: 145 70% 45%;
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 45 90% 55%;
+    --warning-foreground: 0 0% 100%;
+    
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* UI elements */
+    --border: 210 25% 90%;
+    --input: 210 25% 95%;
+    --ring: 208 85% 45%;
+
+    /* Custom gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(210 25% 99%));
+
+    /* Shadows */
+    --shadow-soft: 0 2px 8px -2px hsl(var(--primary) / 0.1);
+    --shadow-card: 0 4px 20px -4px hsl(var(--primary) / 0.15);
+    --shadow-floating: 0 8px 30px -8px hsl(var(--primary) / 0.2);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --radius: 0.5rem;
 
@@ -56,33 +82,41 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark theme for medical interface */
+    --background: 215 25% 8%;
+    --foreground: 210 20% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 215 25% 10%;
+    --card-foreground: 210 20% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 215 25% 10%;
+    --popover-foreground: 210 20% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 208 85% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 208 85% 75%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 155 40% 60%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 215 25% 15%;
+    --muted-foreground: 210 15% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 195 100% 15%;
+    --accent-foreground: 208 85% 55%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --success: 145 70% 55%;
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 45 90% 65%;
+    --warning-foreground: 0 0% 100%;
+    
+    --destructive: 0 75% 65%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 215 25% 20%;
+    --input: 215 25% 15%;
+    --ring: 208 85% 55%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -101,5 +135,96 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* CRM Card Styles */
+  .crm-card {
+    @apply bg-card rounded-xl shadow-lg border border-border/50 
+           hover:shadow-xl transition-all duration-300 
+           backdrop-blur-sm;
+    background: var(--gradient-card);
+  }
+
+  .crm-card-floating {
+    @apply crm-card;
+    box-shadow: var(--shadow-floating);
+  }
+
+  /* Kanban Column Styles */
+  .kanban-column {
+    @apply bg-muted/30 rounded-xl p-4 min-h-[600px]
+           border border-border/30 backdrop-blur-sm;
+  }
+
+  /* Button Variants */
+  .btn-medical {
+    @apply bg-primary text-primary-foreground hover:bg-primary-glow
+           transition-all duration-300 shadow-md hover:shadow-lg
+           rounded-lg font-medium;
+  }
+
+  .btn-success {
+    @apply bg-success text-success-foreground hover:opacity-90
+           transition-all duration-300 shadow-md hover:shadow-lg;
+  }
+
+  .btn-ghost-primary {
+    @apply text-primary hover:bg-primary/10 border border-primary/20
+           hover:border-primary/40 transition-all duration-300;
+  }
+
+  /* Status Badge Styles */
+  .status-prospecting { @apply bg-blue-100 text-blue-800; }
+  .status-contacted { @apply bg-yellow-100 text-yellow-800; }
+  .status-negotiation { @apply bg-orange-100 text-orange-800; }
+  .status-closed { @apply bg-success/10 text-success; }
+  .status-lost { @apply bg-destructive/10 text-destructive; }
+
+  /* Smooth hover effects */
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  /* Search and form styles */
+  .form-input {
+    @apply bg-input border-border/50 focus:border-primary/50 
+           focus:ring-2 focus:ring-primary/20 rounded-lg
+           transition-all duration-200;
+  }
+}
+
+@layer utilities {
+  /* Gradient utilities */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .bg-gradient-subtle {
+    background: var(--gradient-subtle);
+  }
+
+  /* Shadow utilities */
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .shadow-floating {
+    box-shadow: var(--shadow-floating);
+  }
+
+  /* Animation utilities */
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  
+  .transition-bounce {
+    transition: var(--transition-bounce);
   }
 }
