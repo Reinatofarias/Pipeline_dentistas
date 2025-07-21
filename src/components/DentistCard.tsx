@@ -61,47 +61,45 @@ export function DentistCard({ dentist, onEdit, onDelete, onStatusChange }: Denti
 
   return (
     <Card className="crm-card hover-lift group">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <h3 className="font-semibold text-lg text-card-foreground group-hover:text-primary transition-colors">
+      <CardContent className="p-3 space-y-2">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1 min-w-0">
+            <h3 className="font-medium text-sm text-card-foreground group-hover:text-primary transition-colors truncate">
               Dr(a). {dentist.name}
             </h3>
-            <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
-              <MapPin className="h-3 w-3" />
+            <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5 truncate">
+              <MapPin className="h-3 w-3 shrink-0" />
               {dentist.city}, {dentist.state}
             </p>
           </div>
-          <Badge className={`${statusInfo.class} text-xs font-medium`}>
+          <Badge className={`${statusInfo.class} text-xs font-medium shrink-0`}>
             {statusInfo.label}
           </Badge>
         </div>
-      </CardHeader>
 
-      <CardContent className="space-y-3">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-sm">
-            <User className="h-4 w-4 text-muted-foreground" />
-            <span className="font-medium">{specialtyDisplay}</span>
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-1.5 text-xs">
+            <User className="h-3 w-3 text-muted-foreground shrink-0" />
+            <span className="font-medium truncate">{specialtyDisplay}</span>
           </div>
           
-          <div className="text-sm text-muted-foreground">
-            <strong className="text-card-foreground">{dentist.clinic}</strong>
+          <div className="text-xs text-muted-foreground">
+            <span className="text-card-foreground font-medium truncate block">{dentist.clinic}</span>
           </div>
 
           {dentist.last_contact_date && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Calendar className="h-3 w-3" />
-              Último contato: {new Date(dentist.last_contact_date).toLocaleDateString('pt-BR')}
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Calendar className="h-3 w-3 shrink-0" />
+              <span className="truncate">{new Date(dentist.last_contact_date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}</span>
             </div>
           )}
         </div>
 
-        <div className="flex gap-2 pt-2">
+        <div className="flex gap-1.5 pt-1">
           <Button
             onClick={handleWhatsApp}
             size="sm"
-            className="btn-success flex-1 text-xs"
+            className="btn-success flex-1 text-xs py-1 h-7"
           >
             <Phone className="h-3 w-3 mr-1" />
             WhatsApp
@@ -112,7 +110,7 @@ export function DentistCard({ dentist, onEdit, onDelete, onStatusChange }: Denti
               onClick={handleInstagram}
               variant="outline"
               size="sm"
-              className="btn-ghost-primary"
+              className="btn-ghost-primary h-7 px-2"
             >
               <Instagram className="h-3 w-3" />
             </Button>
@@ -120,17 +118,17 @@ export function DentistCard({ dentist, onEdit, onDelete, onStatusChange }: Denti
         </div>
 
         {dentist.notes && (
-          <div className="mt-3 p-2 bg-muted/50 rounded text-xs text-muted-foreground">
+          <div className="p-2 bg-muted/50 rounded text-xs text-muted-foreground line-clamp-2">
             {dentist.notes}
           </div>
         )}
 
-        <div className="flex gap-1 pt-2 border-t border-border/30">
+        <div className="flex gap-1 pt-1 border-t border-border/30">
           <Button
             onClick={() => onEdit(dentist)}
             variant="ghost"
             size="sm"
-            className="flex-1 text-xs"
+            className="flex-1 text-xs py-1 h-6"
           >
             Editar
           </Button>
@@ -138,7 +136,7 @@ export function DentistCard({ dentist, onEdit, onDelete, onStatusChange }: Denti
             onClick={() => onDelete(dentist.id)}
             variant="ghost"
             size="sm"
-            className="text-destructive hover:text-destructive hover:bg-destructive/10 text-xs"
+            className="text-destructive hover:text-destructive hover:bg-destructive/10 text-xs py-1 h-6"
           >
             Excluir
           </Button>
